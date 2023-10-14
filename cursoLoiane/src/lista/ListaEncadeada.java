@@ -1,97 +1,83 @@
 package lista;
+/*
+  - [x] Definição;
+  - [x] Criação da classe Nó e ListaEncadeada;
+  - [x] Inserir no início;
+  - [x] Quantidade de nós (tamanho);
+  - [x] Inserir no final da lista;
+  - [x] Percorrer a lista (imprimir);
+  - [x] Limpar a lista;
+  - [] Pesquisar um nó ou uma posição específica;
+  - [] Inserir em posição específica;
+  - [] Remover do início;
+  - [] Remover do final da lista;
+  - [] Remover de qualquer posição;
+  - [] Inserir de forma ondernada;
+  - [] API java LinkedList;
+  - [] Exercícios;
+ */
 
-public class ListaEncadeada<T> {
-    
-    private No<T> inicio;
-    private No<T> atual;
-    private No<T> ultimo;
-    private int tamanho;
-    
+public class ListaEncadeada {
 
-    public void adiciona(T elemento) {
-        No<T> celula = new No<T>(elemento);
+  private No inicio;
+  private No ultimo;
+  private Integer tamanho = 0;
 
-        if (this.tamanho == 0) {
-            this.inicio = celula;
-        }else {
-            ultimo.setProximo(celula);
-        }
-
-        this.ultimo = celula;
-        this.tamanho++;
+  public void adiciona(Integer elemento) {
+    No no = new No(elemento);
+    if (this.tamanho == 0) {
+      this.inicio = no;
+    } else {
+      this.ultimo.setProximo(no);
     }
 
-    public int getTamanho() {
-        return this.tamanho;        
+    this.ultimo = no;
+    this.tamanho++;
+  }
+
+  public void limpa() {
+
+    for (No atual = this.inicio; atual != null;) {
+      No proximo = atual.getProximo();
+      atual.setElemento(null);
+      atual.setProximo(null);
+      atual = proximo;
     }
 
-    public boolean temProximo() {
-        if(inicio == null) {
-            return false;
-        }
-        
-        if (atual == null) {
-            atual = inicio;
-            return true;
-        } 
-        
-        boolean temProximo = atual.getProximo() != null ? true : false;
-        atual = atual.getProximo();
-        return temProximo;
-        
+    this.inicio = null;
+    this.ultimo = null;
+    this.tamanho = 0;
+
+  }
+
+  public No getInicio() {
+    return inicio;
+  }
+
+  public No getUltimo() {
+    return ultimo;
+  }
+
+  public Integer getTamanho() {
+    return tamanho;
+  }
+
+  @Override
+  public String toString() {
+
+    if (this.tamanho == 0) {
+      return "[]";
     }
 
-    public void remover() {
-        if(inicio.getProximo() != null ) {
-            No celula = this.recuperarPenultimo(inicio);
-            ultimo = celula;
-            celula.setProximo(null);
-        } else {
-            inicio = ultimo = null;
-        }
+    No atual = this.inicio;
+    String lista = "[";
 
+    for (Integer i = 0; i < this.tamanho; i++) {
+      lista = lista + atual.getElemento() + (i < this.tamanho - 1 ? ", " : "");
+      atual = atual.getProximo();
     }
 
-    private No recuperarPenultimo(No celula) {
+    return lista + "]";
+  }
 
-		if(celula.getProximo().equals(ultimo)) {
-			return celula;
-		}
-		return recuperarPenultimo(celula.getProximo());
-	}
-
-    public No<T> getInicio() {
-        return inicio;
-    }
-
-    public void setInicio(No<T> inicio) {
-        this.inicio = inicio;
-    }
-
-    public No<T> getAtual() {
-        return atual;
-    }
-
-    public void setAtual(No<T> atual) {
-        this.atual = atual;
-    }
-
-    public No<T> getUltimo() {
-        return ultimo;
-    }
-
-    public void setUltimo(No<T> ultimo) {
-        this.ultimo = ultimo;
-    }
-
-    public void setTamanho(int tamanho) {
-        this.tamanho = tamanho;
-    }
-
-    
-
-    // @Override
-    // public String toString() {
-    //     return "ListaEncadeada [inicio=" + inicio + "]";
-    // }
 }
